@@ -73,8 +73,8 @@ var ResponsiveElements = {
 		return options_object;
 	},
 	generateBreakpointsOnAllElements: function() {
-		var self = this;
-		this.el.responsive_elements.each(function(i, _el) {
+		var self = ResponsiveElements;
+		self.el.responsive_elements.each(function(i, _el) {
 			self.generateBreakpointsOnElement($(_el));
 		});
 	},
@@ -121,7 +121,7 @@ var ResponsiveElements = {
 		this.generateBreakpointsOnAllElements();
 
 		this.el.window.bind('resize', this.utils.debounce(
-			this.generateBreakpointsOnAllElements.bind(this), this.maxRefreshRate));
+			this.generateBreakpointsOnAllElements, this.maxRefreshRate));
 	},
 	utils: {
 		// Debounce is part of Underscore.js 1.5.2 http://underscorejs.org
