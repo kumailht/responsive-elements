@@ -1,0 +1,126 @@
+@import lib/normalize
+@import lib/grid
+@import lib/utils
+
+$light_yellow: #FEFCE3
+$gray_dark: #333333
+$prussian_blue: #2C5AA0
+$maroon: #AA0000
+$red: #D60000
+$forrest_green: #16502D
+
+$dust: #fdfdfd
+$purple_eggplant: #582844
+$sky_blue: #0088AA
+$sunset_yellow: #FFCC00
+
+*, *:before, *:after
+	-webkit-box-sizing: border-box
+	-moz-box-sizing: border-box
+	box-sizing: border-box
+
+html
+	background: $dust
+	font-family: "myriad-pro", "nimbus-sans", helvetica, sans-serif
+	text-rendering: optimizeLegibility
+	color: $gray_dark
+	font-size: 20px
+	line-height: 1.3
+	+breakpoints(0, 900px)
+		font-size: 16px
+		line-height: 1.1
+		h1
+			font-size: 26px
+		h2
+			font-size: 20px
+		big
+			font-size: 100%
+
+body
+	+breakpoints(1000px)
+		width: 900px
+		margin: 0 auto
+	+breakpoints(0, 1000px)
+		padding: 0 10%
+a
+	color: $prussian_blue
+
+.logo
+	max-width: 100%
+
+h1
+	font: normal 32px "adobe-garamond-pro"
+
+h2
+	font: bold 36px "myriad-pro"
+	color: $purple_eggplant
+	margin-bottom: 0
+	& + p
+		margin-top: 15px
+
+p
+	margin: 10px 0 10px
+	max-width: 90ch
+
+h1, h2, h3, h4, h5, h6, li
+	max-width: 70ch
+
+pre
+	margin: 0
+
+code
+	color: $prussian_blue
+	display: block
+	margin-bottom: 30px
+	font-size: 90%
+
+p code
+	display: inline
+	font-size: 90%
+
+mark
+	background-color: $sunset_yellow
+
+#mobile-demo
+	+clear
+	display: none
+	+breakpoints(0, 900px)
+		display: block
+
+#demo
+	display: none
+	+breakpoints(900px)
+		display: block
+	+clear
+	background: url(img/scale.png) left bottom repeat-x
+	min-height: 300px
+	margin: 120px 0 90px 0
+	position: relative
+	.hint
+		position: absolute
+		top: -90px
+		left: 430px
+	.slider-handle
+		background: transparent url(img/slider.png) left bottom repeat-x
+		position: absolute
+		right: -35px
+		top: -60px
+		width: 65px
+		height: 414px
+		opacity: .9
+		&:hover
+			cursor: move
+			opacity: .95
+		&:active
+			opacity: 1
+	#resizable
+		position: relative
+		min-height: 200px
+		width: 500px
+
+p
+	position: relative
+	span
+		color: #ccc
+		position: absolute
+		left: -1em

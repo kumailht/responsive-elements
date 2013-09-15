@@ -1,0 +1,169 @@
+<!--
+
+PS: This landing page is badly/quickly coded to save time! The library is not.
+Don't judge a book by its cover. Or something like that.
+
+-->
+<!DOCTYPE html>
+<head>
+	<title>Responsive Elements - Helps you build better responsive websites</title>
+	<link rel="stylesheet" type="text/css" href="media/style.css">
+
+	<script type="text/javascript" src="//use.typekit.net/uwj0nhe.js"></script>
+	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="media/jquery-ui-touch-punch.js"></script>
+	<script type="text/javascript" src="../responsive-elements.js"></script>
+
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+</head>
+
+<body>
+	<br><br><br><br>
+	<center>
+		<img class="logo" src="media/img/logo.png">
+		<h1>Responsive elements makes it possible for any element to adapt and respond to the area they occupy. It's a tiny javascript library that you can drop into your projects today.</h1>
+		
+		<h3><b><a href="https://github.com/kumailht/responsive-elements">Download on Github</a></b></h3>
+		
+		<iframe src="http://ghbtns.com/github-btn.html?user=kumailht&repo=responsive-elements&type=watch" allowtransparency="true" frameborder="0" scrolling="0" width="62" height="20"></iframe>
+		
+		<a href="https://twitter.com/share" class="twitter-share-button" data-url="https://github.com/kumailht/responsive-elements" data-text="Responsive elements makes it possible for any element to adapt and respond to the area they occupy" data-via="kumailht" data-count="none" data-dnt="true">Tweet</a>
+		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+	</center>
+
+	<style type="text/css">
+		.quote {border:1px solid #ccc; padding:20px; float:left;}
+		.quote * {margin:0; padding:0}
+		.quote .words {font-style:italic; font-family:serif; font-size:18px; line-height:1.3;}
+		.quote .author {font-family:sans-serif; font-size:12px; margin-top:10px; color:#999}
+
+		.quote .author-context,
+		.quote .author-photo,
+		.quote .author-thumb
+		{display:none;}
+		.quote.gt250 .author-context {font-family:sans-serif; color:#aaa}
+
+		.quote.lt150 {padding:8px}
+		.quote.lt150 .words {font-size:14px; word-spacing:-1px; line-height:1.2}
+		.quote.lt150 .author {font-size:11px; margin-top:5px}
+
+		.quote.gt250 .words {font-size:22px}
+		.quote.gt250 .author {margin-top:20px}
+		.quote.gt250 .author-context {display:block; font-size:10px;}
+		.quote.gt250 .author-thumb {display:block; width:40px; float:left; margin:20px 10px 0 0;}
+
+		.quote.gt450 .words {font-size:26px;}
+		.quote.gt450 .author {font-size:16px}
+		.quote.gt450 .author-context {display:block; font-size:12px;}
+		.quote.gt450 .author-thumb {display:none;}
+		.quote.gt450 .author-photo {display:block; width:170px; float:right; margin-left:20px}
+	</style>
+
+	<script type="text/javascript">
+		// demo slider
+		$(function() {
+			$("#resizable").resizable({
+				minWidth: 150,
+				maxWidth: 840,
+				grid: [10, 0],
+				start: function() {
+					$('.hint').fadeOut();
+				},
+				resize: function() {
+					$('.live-classes').text(
+						$('.quote').attr('class').replace('quote', '')
+					);
+				}
+			});
+		});
+	</script>
+
+	<div id="demo">
+		<img class="hint" src="media/img/hint.png">
+		<div id="resizable">
+			<div class="quote" data-respond="start: 100px; end: 900px; interval: 50px;">
+				<img class="author-photo" src="media/img/tommy.jpg">
+				<p class="words">Design must reflect the practical and aesthetic in business but above all... good design must primarily serve people.</p>
+				<img class="author-thumb" src="media/img/tommy.jpg">
+				<p class="author">Thomas J. Watson</p>
+				<p class="author-context">Chairman and CEO of International Business Machines</p>
+			</div>
+			<div class="slider-handle ui-resizable-handle ui-resizable-e"></div>
+		</div>
+	</div>
+
+	<div id="mobile-demo">
+		<br><br>
+		<div class="quote" data-respond>
+			<img class="author-photo" src="media/img/tommy.jpg">
+			<p class="words">Design must reflect the practical and aesthetic in business but above all... good design must primarily serve people.</p>
+			<img class="author-thumb" src="media/img/tommy.jpg">
+			<p class="author">Thomas J. Watson</p>
+			<p class="author-context">Chairman and CEO of International Business Machines</p>
+		</div>
+		<p style="padding-top:20px; display: inline-block; line-height:1.4"><mark>As ironic as it is, I was too lazy to build a proper mobile based demo. Please check this out on your desktop. It'll save me tons of time having to build a mobile version of the demo.</mark></p>
+	</div>
+
+	<h1 style="line-height:1.1"><small><b>If you understand responsive web design, you already understand what is happening above. The element (the quote) is aware of it's own width. <i>It responds and adapts to increasing or decreasing amounts of space.</i></b></small></h1>
+	<br>
+	<h2>How it works</h2>
+	<p>The above demo element has the following classes attached to it. <b>Go ahead and drag the slider to see these classes update.</b></p>
+	<b><code class="live-classes" style="color: #217867; margin-bottom:0">gt50 gt100 gt150 gt200 gt250 gt300 gt350 gt400 gt450 gt500 gt550 gt600 gt650 lt700 lt750 lt800 lt850 lt900 lt950</code></b>
+
+	<p><b><mark>These classes hold information. They tell you how big your element is.</mark></b> Classes are prepended with either 'lt' or 'gt' which stand for 'less than' and 'greater than'.  These classes always reflect the real width of the element.  That is what makes responsive elements possible.</p>
+
+
+	<!-- <h2>Examples</h2> --> <br>
+	<p><b>A class of 'gt300' means the element has a width 'greater than' 300 pixels. Here is some example CSS to color our element red when the width exceeds 300 pixels:</b></p>
+	<code>.quote<b>.gt300</b> {background: red}</code>
+
+	<p><b>Or color it blue when its width is 'less than' 500 pixels:</b></p>
+	<code>.quote<b>.lt500</b> {background: blue}</code>
+
+	<p><b>Or combine them both by chaining another class. Here's the CSS to color the background yellow when the element is greater than 250 but less than 600 pixels:</b></p>
+	<code>.quote<b>.gt250.lt600</b> {background: blue}</code>
+
+	<br>
+	<h2>Usage</h2>
+	<p><span>1.</span>Load jQuery and <code>responsive-elements.js</code> right before your closing <code>&lt;/head&gt;</code> tag.</p>
+	<code><pre>&lt;script src=&quot;jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;responsive-elements.js&quot;&gt;&lt;/script&gt;</pre></code>
+
+	<p><span>2.</span>Eplicitly declare which elements you want to be responsive using a <code>data-respond</code> attribute.</p>
+	<code>&lt;div class=&quot;quote&quot; <mark><b>data-respond</b></mark>&gt;</code>
+
+	<p><span>3.</span>Use 'less than' and 'greater than' classes as breakpoints to write responsive CSS.</p>
+	<code><pre>.quote<b>.lt500</b> {background: blue}
+.quote<b>.gt150.lt300</b> {background: red}
+</pre></code>
+
+	<center>
+		<br><br>
+		<h1 style="max-width:700px">
+			<i>
+			<b>Now checkout <a href="http://kumailht.com/gridforms">GridForms</a>. An opensource library that helps you build better data entry forms.</b><br><br>
+			Made by <a href="http://kumailht.com">Kumail Hunaid</a>. <br>
+			</i>
+		</h1>
+		<br><br><br><br><br>
+	</center>
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-632178-11']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script');
+			ga.type = 'text/javascript';
+			ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0];
+			s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</body>
+</html>
