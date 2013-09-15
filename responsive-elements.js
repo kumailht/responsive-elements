@@ -21,10 +21,6 @@
 //  THE SOFTWARE.
 //
 
-// TODO
-// possible event width change listening/watch loop. Add watch: boolean attribute
-
-
 var ResponsiveElements = {
 	elementsAttributeName: 'data-respond',
 	maxRefreshRate: 5,
