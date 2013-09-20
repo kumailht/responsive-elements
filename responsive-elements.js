@@ -84,42 +84,40 @@ var ResponsiveElements = {
 			breakpoints = this.generateBreakpoints(_el.width(), options);
 
 		this.cleanUpBreakpoints(_el);
-		_el.addClass(breakpoints.join(' '));
+		var class_string = breakpoints.join(' ');
+		_el.addClass(class_string);
+		_el.data('breakpoint-classes', class_string);
 	},
 	generateBreakpoints: function(width, options) {
-		var start = options.start,
-			end = options.end,
-			interval = options.interval,
-			i = interval > start ? interval : ~~(start / interval) * interval,
-			classes = [];
+		var classes = [];
+		if (options.start) {
+			var start = options.start,
+				end = options.end,
+				interval = options.interval,
+				i = interval > start ? interval : ~~(start / interval) * interval;
 
-		while (i <= end) {
-			if (i < width) classes.push('gt' + i);
-			if (i > width) classes.push('lt' + i);
-			if (i == width) classes.push('lt' + i);
+			while (i <= end) {
+				if (i < width) classes.push('gt' + i);
+				if (i > width) classes.push('lt' + i);
+				if (i == width) classes.push('lt' + i);
 
-			i += interval;
+				i += interval;
+			}
+		} 
+		else {
+			for(var key in options) {
+				if (width > options[key]) {
+					classes.push(key);
+				}
+			}
 		}
-
 		return classes;
 	},
-	parseBreakpointClasses: function(breakpoints_string) {
-		var classes = breakpoints_string.split(/\s+/),
-			breakpointClasses = [];
-
-		$(classes).each(function(i, className) {
-			if (className.match(/^gt\d+|lt\d+$/)) breakpointClasses.push(className);
-		});
-
-		return breakpointClasses;
-	},
 	cleanUpBreakpoints: function(_el) {
-		var classesToCleanup = this.parseBreakpointClasses(_el.attr('class'));
-		_el.removeClass(classesToCleanup.join(' '));
+		_el.removeClass(_el.data('breakpoint-classes') || '');
 	},
 	events: function() {
 		this.generateBreakpointsOnAllElements();
-
 		this.el.window.bind('resize', this.utils.debounce(
 			this.generateBreakpointsOnAllElements, this.maxRefreshRate));
 	},
