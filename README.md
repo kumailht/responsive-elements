@@ -34,3 +34,10 @@ Feedback, bugs, questions? [email](mailto:contact@kumailht.com) me, I'll respond
 - Start: What pixel value should breakpoint generation start at
 - End: What pixel value should breakpoints end at
 - Interval: How many pixels between breakpoints
+
+####5. Alternatively declare named breakpoints on your `data-respond` attribute to control breakpoint generation
+```html
+<div class="quote" data-respond="xs: 0px; sm: 768px; md: 992px; lg: 1200px;">
+```
+Similiar to Bootstrap 3 media queries, when the width of the element exceeds the breakpoint the
+class will be added to the element.
