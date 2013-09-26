@@ -21,7 +21,33 @@
 //  THE SOFTWARE.
 //
 
+// Messing witht prototype is problematic, maybe theres a simpler solution?
+DOMTokenList.prototype.addClass = function(classes) {
+    var classes = classes.split(' '),
+        i = 0,
+        ii = classes.length;
+
+    for(i; i<ii; i++) {
+        this.add(classes[i]);
+    }
+}
+
+DOMTokenList.prototype.removeClass = function(classes) {
+    var classes = classes.split(' '),
+        i = 0,
+        ii = classes.length;
+
+    for(i; i<ii; i++) {
+        remove.add(classes[i]);
+    }
+}
+
+
 var ResponsiveElements = {
+	q: function ( selector ) { 
+		var search = document.querySelectorAll( selector );
+		return search.length > 1 ? search : search[0];
+	},
 	elementsAttributeName: 'data-respond',
 	maxRefreshRate: 5,
 	defaults: {
@@ -36,8 +62,8 @@ var ResponsiveElements = {
 		var self = this;
 		$(function() {
 			self.el = {
-				window: $(window),
-				responsive_elements: $('[' + self.elementsAttributeName + ']')
+				window: window,
+				responsive_elements: q('[' + self.elementsAttributeName + ']')
 			};
 
 			self.events();
@@ -74,14 +100,14 @@ var ResponsiveElements = {
 	},
 	generateBreakpointsOnAllElements: function() {
 		var self = ResponsiveElements;
-		self.el.responsive_elements.each(function(i, _el) {
-			self.generateBreakpointsOnElement($(_el));
+		self.el.responsive_elements.forEach(function(_el, i) {
+			self.generateBreakpointsOnElement(q(_el));
 		});
 	},
 	generateBreakpointsOnElement: function(_el) {
-		var options_string = _el.attr(this.elementsAttributeName),
+		var options_string = _el.getAttribute(this.elementsAttributeName),
 			options = this.parseOptions(options_string) || this.defaults,
-			breakpoints = this.generateBreakpoints(_el.width(), options);
+			breakpoints = this.generateBreakpoints(_el.offsetWidth, options);
 
 		this.cleanUpBreakpoints(_el);
 		_el.addClass(breakpoints.join(' '));
@@ -107,21 +133,21 @@ var ResponsiveElements = {
 		var classes = breakpoints_string.split(/\s+/),
 			breakpointClasses = [];
 
-		$(classes).each(function(i, className) {
+		classes.forEach(function(className, i) {
 			if (className.match(/^gt\d+|lt\d+$/)) breakpointClasses.push(className);
 		});
 
 		return breakpointClasses;
 	},
 	cleanUpBreakpoints: function(_el) {
-		var classesToCleanup = this.parseBreakpointClasses(_el.attr('class'));
-		_el.removeClass(classesToCleanup.join(' '));
+		var classesToCleanup = this.parseBreakpointClasses(_el.getAttribute('class'));
+		_el.classList.removeMany(classesToCleanup.join(' '));
 	},
 	events: function() {
 		this.generateBreakpointsOnAllElements();
 
-		this.el.window.bind('resize', this.utils.debounce(
-			this.generateBreakpointsOnAllElements, this.maxRefreshRate));
+		this.el.window.addEventListener('resize', this.utils.debounce(
+			this.generateBreakpointsOnAllElements, this.maxRefreshRate), false);
 	},
 	utils: {
 		// Debounce is part of Underscore.js 1.5.2 http://underscorejs.org
