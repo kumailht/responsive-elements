@@ -30,7 +30,11 @@ var ResponsiveElements = {
 		// When to stop adding breakpoints
 		end: 900,
 		// At what interval should breakpoints be added?
-		interval: 50
+		interval: 50,
+		// Whether to use em-like measurements
+		useEmUnits: false,
+		// Root font size
+		rootFontSize: parseInt(getComputedStyle(document.documentElement).fontSize)
 	},
 	init: function() {
 		var self = this;
@@ -93,6 +97,10 @@ var ResponsiveElements = {
 			i = interval > start ? interval : ~~(start / interval) * interval,
 			classes = [];
 
+		if (useEmUnits) {
+			width = width * (16 / options.rootFontSize);
+		}
+		
 		while (i <= end) {
 			if (i < width) classes.push('gt' + i);
 			if (i > width) classes.push('lt' + i);
