@@ -114,7 +114,7 @@ var ResponsiveElements = {
 		return breakpointClasses;
 	},
 	cleanUpBreakpoints: function(_el) {
-		var classesToCleanup = this.parseBreakpointClasses(_el.attr('class'));
+		var classesToCleanup = this.parseBreakpointClasses(_el.attr('class') || '');
 		_el.removeClass(classesToCleanup.join(' '));
 	},
 	events: function() {
