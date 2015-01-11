@@ -43,6 +43,15 @@ var ResponsiveElements = {
 			self.events();
 		});
 	},
+
+    addElement: function(element) {
+        this.el = this.el.add(element);
+    },
+
+    removeElement: function(element) {
+        this.el = this.el.remove(element);
+    },
+
 	parseOptions: function(options_string) {
 		// data-respond="start: 100px; end: 900px; interval: 50px; watch: true;"
 		if (!options_string) return false;
