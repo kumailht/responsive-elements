@@ -44,13 +44,13 @@ var ResponsiveElements = {
 		});
 	},
 
-    addElement: function(element) {
-        this.el = this.el.add(element);
-    },
+	addElement: function(element) {
+		this.el.responsive_elements = this.el.responsive_elements.add(element);
+	},
 
-    removeElement: function(element) {
-        this.el = this.el.remove(element);
-    },
+	removeElement: function(element) {
+		this.el.responsive_elements = this.el.responsive_elements.not(element);
+	},
 
 	parseOptions: function(options_string) {
 		// data-respond="start: 100px; end: 900px; interval: 50px; watch: true;"
