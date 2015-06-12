@@ -1,7 +1,6 @@
 {
   "name": "responsive-elements",
   "main": "./responsive-elements.js",
-  "version": "1.0.1",
   "homepage": "http://kumailht.com/responsive-elements/",
   "authors": [
     "Kumail Hunaid <contact@kumailht.com>"
