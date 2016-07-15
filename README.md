@@ -23,8 +23,8 @@ Feedback, bugs, questions? [email](mailto:contact@kumailht.com) me, I'll respond
 
 ####3. Use 'less than' and 'greater than' classes as breakpoints to write responsive CSS
 ```css
-.quote.lt500 {background: blue}
-.quote.gt150.lt300 {background: red}
+.quote.v-lt500 {background: blue}
+.quote.v-gt150.v-lt300 {background: red}
 ```
 
 ####4. Optionally declare start, end and interval values on your `data-respond` attribute to control breakpoint generation

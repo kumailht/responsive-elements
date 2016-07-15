@@ -37,7 +37,7 @@ var ResponsiveElements = {
 		$(function() {
 			self.el = {
 				window: $(window),
-				responsive_elements: $('[' + self.elementsAttributeName + ']')
+				responsiveElements: $('[' + self.elementsAttributeName + ']')
 			};
 
 			self.events();
@@ -45,51 +45,49 @@ var ResponsiveElements = {
 	},
 
 	addElement: function(element) {
-		this.el.responsive_elements = this.el.responsive_elements.add(element);
+		this.el.responsiveElements = this.el.responsiveElements.add(element);
 	},
 
 	removeElement: function(element) {
-		this.el.responsive_elements = this.el.responsive_elements.not(element);
+		this.el.responsiveElements = this.el.responsiveElements.not(element);
 	},
 
-	parseOptions: function(options_string) {
-		// data-respond="start: 100px; end: 900px; interval: 50px; watch: true;"
-		if (!options_string) return false;
+	parseOptions: function(optionsString) {
+		// data-respond="{"start": 100, "end": 900, "interval": 50, "watch": true}"
+		if (!optionsString) return false;
 
-		this._options_cache = this._options_cache || {};
-		if (this._options_cache[options_string]) return this._options_cache[options_string];
+		this._optionsCache = this._optionsCache || {};
+		if (this._optionsCache[optionsString]) return this._optionsCache[optionsString];
 
-		var options_array = options_string.replace(/\s+/g, '').split(';'),
-			options_object = {};
+		var optionsObject = JSON.parse(optionsString);
 
-		for (var i = 0; i < options_array.length; i++) {
-			if (!options_array[i]) continue;
-			var property_array = (options_array[i]).split(':');
+		for (var key in optionsObject) {
+			var value = optionsObject[key];
 
-			var key = property_array[0];
-			var value = property_array[1];
-
-			if (value.slice(-2) === 'px') {
+			if (value.toString().slice(-2) === 'px') {
 				value = value.replace('px', '');
 			}
+
 			if (!isNaN(value)) {
 				value = parseInt(value, 10);
 			}
-			options_object[key] = value;
+
+			optionsObject[key] = value;
 		}
 
-		this._options_cache[options_string] = options_object;
-		return options_object;
+		this._optionsCache[optionsString] = optionsObject;
+
+		return optionsObject;
 	},
 	generateBreakpointsOnAllElements: function() {
 		var self = ResponsiveElements;
-		self.el.responsive_elements.each(function(i, _el) {
+		self.el.responsiveElements.each(function(i, _el) {
 			self.generateBreakpointsOnElement($(_el));
 		});
 	},
 	generateBreakpointsOnElement: function(_el) {
-		var options_string = _el.attr(this.elementsAttributeName),
-			options = this.parseOptions(options_string) || this.defaults,
+		var optionsString = _el.attr(this.elementsAttributeName),
+			options = this.parseOptions(optionsString) || this.defaults,
 			breakpoints = this.generateBreakpoints(_el.width(), options);
 
 		this.cleanUpBreakpoints(_el);
@@ -103,21 +101,21 @@ var ResponsiveElements = {
 			classes = [];
 
 		while (i <= end) {
-			if (i < width) classes.push('gt' + i);
-			if (i > width) classes.push('lt' + i);
-			if (i == width) classes.push('lt' + i);
+			if (i < width) classes.push('v-gt' + i);
+			if (i > width) classes.push('v-lt' + i);
+			if (i == width) classes.push('v-lt' + i);
 
 			i += interval;
 		}
 
 		return classes;
 	},
-	parseBreakpointClasses: function(breakpoints_string) {
-		var classes = breakpoints_string.split(/\s+/),
+	parseBreakpointClasses: function(breakpointsString) {
+		var classes = breakpointsString.split(/\s+/),
 			breakpointClasses = [];
 
 		$(classes).each(function(i, className) {
-			if (className.match(/^gt\d+|lt\d+$/)) breakpointClasses.push(className);
+			if (className.match(/^v-gt\d+|v-lt\d+$/)) breakpointClasses.push(className);
 		});
 
 		return breakpointClasses;

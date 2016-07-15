@@ -1,3 +1,5 @@
+var assert = buster.assert || assert;
+
 buster.testCase("Test breakpoints generation", {
 	testBreakpointGeneration: function() {
 		var breakpoints = ResponsiveElements.generateBreakpoints(420, {
@@ -5,7 +7,7 @@ buster.testCase("Test breakpoints generation", {
 			end: 500,
 			interval: 50
 		});
-		var expected = ["gt300", "gt350", "gt400", "lt450", "lt500"];
+		var expected = ["v-gt300", "v-gt350", "v-gt400", "v-lt450", "v-lt500"];
 		assert.equals(breakpoints, expected);
 	},
 	outOfBoundBreakpoint: function() {
@@ -14,7 +16,7 @@ buster.testCase("Test breakpoints generation", {
 			end: 500,
 			interval: 50
 		});
-		var expected = ["gt300", "gt350", "gt400", "gt450", "gt500"];
+		var expected = ["v-gt300", "v-gt350", "v-gt400", "v-gt450", "v-gt500"];
 		assert.equals(breakpoints, expected);
 	},
 	outOfBoundBreakpoint2: function() {
@@ -23,7 +25,7 @@ buster.testCase("Test breakpoints generation", {
 			end: 500,
 			interval: 50
 		});
-		var expected = ["lt300", "lt350", "lt400", "lt450", "lt500"];
+		var expected = ["v-lt300", "v-lt350", "v-lt400", "v-lt450", "v-lt500"];
 		assert.equals(breakpoints, expected);
 	},
 	invalidInterval: function() {
@@ -49,8 +51,8 @@ buster.testCase("Test breakpoints generation", {
 buster.testCase("Test breakpoint classes parsing", {
 	testBreakpointClassesParsing: function() {
 		var parsed_classes = ResponsiveElements.parseBreakpointClasses(
-			'lt238 gt390 ewjfewqh weuhltwioa qwuigtwio gtweih lthiew 3829');
-		var expected = ['lt238', 'gt390'];
+			'v-lt238 v-gt390 ewjfewqh weuhltwioa qwuigtwio gtweih lthiew 3829');
+		var expected = ['v-lt238', 'v-gt390'];
 
 		assert.equals(parsed_classes, expected);
 	}
@@ -59,7 +61,7 @@ buster.testCase("Test breakpoint classes parsing", {
 
 buster.testCase("Test option parsing", {
 	testOptionsParsing: function() {
-		var options = ResponsiveElements.parseOptions('start: 100px; end: 900px; interval: 50px;');
+		var options = ResponsiveElements.parseOptions('{"start": 100, "end": 900, "interval": 50}');
 		var expected = {
 			start: 100,
 			end: 900,
@@ -68,8 +70,8 @@ buster.testCase("Test option parsing", {
 
 		assert.equals(options, expected);
 	},
-	testOptionsParsingWithSpaces: function() {
-		var options = ResponsiveElements.parseOptions('st art:    100 px; end   :    900px; interval: 50px;');
+	testOptionsParsingWithStringValues: function() {
+		var options = ResponsiveElements.parseOptions('{"start": "100px", "end": "900px", "interval": "50px"}');
 		var expected = {
 			start: 100,
 			end: 900,
@@ -78,13 +80,9 @@ buster.testCase("Test option parsing", {
 
 		assert.equals(options, expected);
 	},
-	testOptionsParsingWithoutPixels: function() {
-		var options = ResponsiveElements.parseOptions('start: 100; end: 900; interval: 50');
-		var expected = {
-			start: 100,
-			end: 900,
-			interval: 50
-		};
-		assert.equals(typeof options.start, typeof expected.start);
+	testOptionsParsingWithInvalidJSON: function() {
+		assert.exception(function() {
+			ResponsiveElements.parseOptions('{start');
+		}, {name: 'SyntaxError'});
 	}
 });
