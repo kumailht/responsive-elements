@@ -52,37 +52,37 @@ buster.testCase("Test breakpoint classes parsing", {
 	testBreakpointClassesParsing: function() {
 		var parsed_classes = ResponsiveElements.parseBreakpointClasses(
 			'v-lt238 v-gt390 ewjfewqh weuhltwioa qwuigtwio gtweih lthiew 3829');
-		var expected = ['v-lt238', 'v-gt390'];
+			var expected = ['v-lt238', 'v-gt390'];
 
-		assert.equals(parsed_classes, expected);
-	}
-});
+			assert.equals(parsed_classes, expected);
+		}
+	});
 
 
-buster.testCase("Test option parsing", {
-	testOptionsParsing: function() {
-		var options = ResponsiveElements.parseOptions('{"min": 100, "max": 900, "step": 50}');
-		var expected = {
-			min: 100,
-			max: 900,
-			step: 50
-		};
+	buster.testCase("Test option parsing", {
+		testOptionsParsing: function() {
+			var options = ResponsiveElements.parseOptions('{"min": 100, "max": 900, "step": 50}');
+			var expected = {
+				min: 100,
+				max: 900,
+				step: 50
+			};
 
-		assert.equals(options, expected);
-	},
-	testOptionsParsingWithStringValues: function() {
-		var options = ResponsiveElements.parseOptions('{"min": "100px", "max": "900px", "step": "50px"}');
-		var expected = {
-			min: 100,
-			max: 900,
-			step: 50
-		};
+			assert.equals(options, expected);
+		},
+		testOptionsParsingWithStringValues: function() {
+			var options = ResponsiveElements.parseOptions('{"min": "100px", "max": "900px", "step": "50px"}');
+			var expected = {
+				min: 100,
+				max: 900,
+				step: 50
+			};
 
-		assert.equals(options, expected);
-	},
-	testOptionsParsingWithInvalidJSON: function() {
-		assert.exception(function() {
-			ResponsiveElements.parseOptions('{min');
-		}, {name: 'SyntaxError'});
-	}
-});
+			assert.equals(options, expected);
+		},
+		testOptionsParsingWithInvalidJSON: function() {
+			assert.exception(function() {
+				ResponsiveElements.parseOptions('{min');
+			}, {name: 'SyntaxError'});
+		}
+	});
