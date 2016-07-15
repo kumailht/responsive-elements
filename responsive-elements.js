@@ -25,12 +25,12 @@ var ResponsiveElements = {
 	elementsAttributeName: 'data-respond',
 	maxRefreshRate: 5,
 	defaults: {
-		// How soon should you start adding breakpoints
-		start: 100,
-		// When to stop adding breakpoints
-		end: 900,
-		// At what interval should breakpoints be added?
-		interval: 50
+		//  Minimum width to add a breakpoint
+		min: 100,
+		// Maximum width to add a breakpoint
+		max: 900,
+		// Step amount to skip breakpoints
+		step: 50
 	},
 	init: function() {
 		var self = this;
@@ -53,7 +53,7 @@ var ResponsiveElements = {
 	},
 
 	parseOptions: function(optionsString) {
-		// data-respond="{"start": 100, "end": 900, "interval": 50, "watch": true}"
+		// data-respond="{"min": 100, "max": 900, "step": 50, "watch": true}"
 		if (!optionsString) return false;
 
 		this._optionsCache = this._optionsCache || {};
@@ -94,18 +94,18 @@ var ResponsiveElements = {
 		_el.addClass(breakpoints.join(' '));
 	},
 	generateBreakpoints: function(width, options) {
-		var start = options.start,
-			end = options.end,
-			interval = options.interval,
-			i = interval > start ? interval : ~~(start / interval) * interval,
+		var min = options.min,
+			max = options.max,
+			step = options.step,
+			i = step > min ? step : ~~(min / step) * step,
 			classes = [];
 
-		while (i <= end) {
+		while (i <= max) {
 			if (i < width) classes.push('v-gt' + i);
 			if (i > width) classes.push('v-lt' + i);
 			if (i == width) classes.push('v-lt' + i);
 
-			i += interval;
+			i += step;
 		}
 
 		return classes;
