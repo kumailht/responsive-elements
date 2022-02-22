@@ -22,141 +22,138 @@
 //
 
 var ResponsiveElements = {
-	elementsAttributeName: 'data-respond',
-	maxRefreshRate: 5,
-	defaults: {
-		// How soon should you start adding breakpoints
-		start: 100,
-		// When to stop adding breakpoints
-		end: 900,
-		// At what interval should breakpoints be added?
-		interval: 50
-	},
-	init: function() {
-		var self = this;
-		$(function() {
-			self.el = {
-				window: $(window),
-				responsive_elements: $('[' + self.elementsAttributeName + ']')
-			};
+  elementsAttributeName: 'data-respond',
+  maxRefreshRate: 5,
+  defaults: {
+    //  Minimum width to add a breakpoint
+    min: 100,
+    // Maximum width to add a breakpoint
+    max: 900,
+    // Step amount to skip breakpoints
+    step: 50
+  },
+  init: function() {
+    var self = this;
+    $(function() {
+      self.el = {
+        window: $(window),
+        responsiveElements: $('[' + self.elementsAttributeName + ']')
+      };
 
-			self.events();
-		});
-	},
+      self.events();
+    });
+  },
 
-	addElement: function(element) {
-		this.el.responsive_elements = this.el.responsive_elements.add(element);
-	},
+  addElement: function(element) {
+    this.el.responsiveElements = this.el.responsiveElements.add(element);
+  },
 
-	removeElement: function(element) {
-		this.el.responsive_elements = this.el.responsive_elements.not(element);
-	},
+  removeElement: function(element) {
+    this.el.responsiveElements = this.el.responsiveElements.not(element);
+  },
 
-	parseOptions: function(options_string) {
-		// data-respond="start: 100px; end: 900px; interval: 50px; watch: true;"
-		if (!options_string) return false;
+  parseOptions: function(optionsString) {
+    // data-respond="{"min": 100, "max": 900, "step": 50, "watch": true}"
+    if (!optionsString) return false;
 
-		this._options_cache = this._options_cache || {};
-		if (this._options_cache[options_string]) return this._options_cache[options_string];
+    this._optionsCache = this._optionsCache || {};
+    if (this._optionsCache[optionsString]) return this._optionsCache[optionsString];
 
-		var options_array = options_string.replace(/\s+/g, '').split(';'),
-			options_object = {};
+    var optionsObject = JSON.parse(optionsString);
 
-		for (var i = 0; i < options_array.length; i++) {
-			if (!options_array[i]) continue;
-			var property_array = (options_array[i]).split(':');
+    for (var key in optionsObject) {
+      var value = optionsObject[key];
 
-			var key = property_array[0];
-			var value = property_array[1];
+      if (value.toString().slice(-2) === 'px') {
+        value = value.replace('px', '');
+      }
 
-			if (value.slice(-2) === 'px') {
-				value = value.replace('px', '');
-			}
-			if (!isNaN(value)) {
-				value = parseInt(value, 10);
-			}
-			options_object[key] = value;
-		}
+      if (!isNaN(value)) {
+        value = parseInt(value, 10);
+      }
 
-		this._options_cache[options_string] = options_object;
-		return options_object;
-	},
-	generateBreakpointsOnAllElements: function() {
-		var self = ResponsiveElements;
-		self.el.responsive_elements.each(function(i, _el) {
-			self.generateBreakpointsOnElement($(_el));
-		});
-	},
-	generateBreakpointsOnElement: function(_el) {
-		var options_string = _el.attr(this.elementsAttributeName),
-			options = this.parseOptions(options_string) || this.defaults,
-			breakpoints = this.generateBreakpoints(_el.width(), options);
+      optionsObject[key] = value;
+    }
 
-		this.cleanUpBreakpoints(_el);
-		_el.addClass(breakpoints.join(' '));
-	},
-	generateBreakpoints: function(width, options) {
-		var start = options.start,
-			end = options.end,
-			interval = options.interval,
-			i = interval > start ? interval : ~~(start / interval) * interval,
-			classes = [];
+    this._optionsCache[optionsString] = optionsObject;
 
-		while (i <= end) {
-			if (i < width) classes.push('gt' + i);
-			if (i > width) classes.push('lt' + i);
-			if (i == width) classes.push('lt' + i);
+    return optionsObject;
+  },
+  generateBreakpointsOnAllElements: function() {
+    var self = ResponsiveElements;
+    self.el.responsiveElements.each(function(i, _el) {
+      self.generateBreakpointsOnElement($(_el));
+    });
+  },
+  generateBreakpointsOnElement: function(_el) {
+    var optionsString = _el.attr(this.elementsAttributeName),
+      options = this.parseOptions(optionsString) || this.defaults,
+      breakpoints = this.generateBreakpoints(_el.width(), options);
 
-			i += interval;
-		}
+    this.cleanUpBreakpoints(_el);
+    _el.addClass(breakpoints.join(' '));
+  },
+  generateBreakpoints: function(width, options) {
+    var min = options.min,
+      max = options.max,
+      step = options.step,
+      i = step > min ? step : ~~(min / step) * step,
+      classes = [];
 
-		return classes;
-	},
-	parseBreakpointClasses: function(breakpoints_string) {
-		var classes = breakpoints_string.split(/\s+/),
-			breakpointClasses = [];
+    while (i <= max) {
+      if (i < width) classes.push('v-gt' + i);
+      if (i >= width) classes.push('v-lt' + i);
 
-		$(classes).each(function(i, className) {
-			if (className.match(/^gt\d+|lt\d+$/)) breakpointClasses.push(className);
-		});
+      i += step;
+    }
 
-		return breakpointClasses;
-	},
-	cleanUpBreakpoints: function(_el) {
-		var classesToCleanup = this.parseBreakpointClasses(_el.attr('class') || '');
-		_el.removeClass(classesToCleanup.join(' '));
-	},
-	events: function() {
-		this.generateBreakpointsOnAllElements();
+    return classes;
+  },
+  parseBreakpointClasses: function(breakpointsString) {
+    var classes = breakpointsString.split(/\s+/),
+      breakpointClasses = [];
 
-		this.el.window.bind('resize', this.utils.debounce(
-			this.generateBreakpointsOnAllElements, this.maxRefreshRate));
-	},
-	utils: {
-		// Debounce is part of Underscore.js 1.5.2 http://underscorejs.org
-		// (c) 2009-2013 Jeremy Ashkenas. Distributed under the MIT license.
-		debounce: function(func, wait, immediate) {
-			// Returns a function, that, as long as it continues to be invoked,
-			// will not be triggered. The function will be called after it stops
-			// being called for N milliseconds. If `immediate` is passed,
-			// trigger the function on the leading edge, instead of the trailing.
-			var result;
-			var timeout = null;
-			return function() {
-				var context = this,
-					args = arguments;
-				var later = function() {
-					timeout = null;
-					if (!immediate) result = func.apply(context, args);
-				};
-				var callNow = immediate && !timeout;
-				clearTimeout(timeout);
-				timeout = setTimeout(later, wait);
-				if (callNow) result = func.apply(context, args);
-				return result;
-			};
-		}
-	}
+    $(classes).each(function(i, className) {
+      if (className.match(/^v-gt\d+|v-lt\d+$/)) breakpointClasses.push(className);
+    });
+
+    return breakpointClasses;
+  },
+  cleanUpBreakpoints: function(_el) {
+    var classesToCleanup = this.parseBreakpointClasses(_el.attr('class') || '');
+    _el.removeClass(classesToCleanup.join(' '));
+  },
+  events: function() {
+    this.generateBreakpointsOnAllElements();
+
+    this.el.window.bind('resize', this.utils.debounce(
+      this.generateBreakpointsOnAllElements, this.maxRefreshRate));
+  },
+  utils: {
+    // Debounce is part of Underscore.js 1.5.2 http://underscorejs.org
+    // (c) 2009-2013 Jeremy Ashkenas. Distributed under the MIT license.
+    debounce: function(func, wait, immediate) {
+      // Returns a function, that, as long as it continues to be invoked,
+      // will not be triggered. The function will be called after it stops
+      // being called for N milliseconds. If `immediate` is passed,
+      // trigger the function on the leading edge, instead of the trailing.
+      var result;
+      var timeout = null;
+      return function() {
+        var context = this,
+          args = arguments;
+        var later = function() {
+          timeout = null;
+          if (!immediate) result = func.apply(context, args);
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) result = func.apply(context, args);
+        return result;
+      };
+    }
+  }
 };
 
 ResponsiveElements.init();

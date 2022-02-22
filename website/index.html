@@ -28,21 +28,21 @@ Don't judge a book by its cover. Or something like that.
 		.quote .author-photo,
 		.quote .author-thumb
 		{display:none;}
-		.quote.gt250 .author-context {font-family:sans-serif; color:#aaa}
+		.quote.v-gt250 .author-context {font-family:sans-serif; color:#aaa}
 
-		.quote.lt150 .words {font-size:14px; word-spacing:-1px; line-height:1.2}
-		.quote.lt150 .author {font-size:11px; margin-top:5px}
+		.quote.v-lt150 .words {font-size:14px; word-spacing:-1px; line-height:1.2}
+		.quote.v-lt150 .author {font-size:11px; margin-top:5px}
 
-		.quote.gt250 .words {font-size:22px}
-		.quote.gt250 .author {margin-top:20px}
-		.quote.gt250 .author-context {display:block; font-size:10px;}
-		.quote.gt250 .author-thumb {display:block; width:40px; float:left; margin:20px 10px 0 0;}
+		.quote.v-gt250 .words {font-size:22px}
+		.quote.v-gt250 .author {margin-top:20px}
+		.quote.v-gt250 .author-context {display:block; font-size:10px;}
+		.quote.v-gt250 .author-thumb {display:block; width:40px; float:left; margin:20px 10px 0 0;}
 
-		.quote.gt450 .words {font-size:26px;}
-		.quote.gt450 .author {font-size:16px}
-		.quote.gt450 .author-context {display:block; font-size:12px;}
-		.quote.gt450 .author-thumb {display:none;}
-		.quote.gt450 .author-photo {display:block; width:170px; float:right; margin-left:20px}
+		.quote.v-gt450 .words {font-size:26px;}
+		.quote.v-gt450 .author {font-size:16px}
+		.quote.v-gt450 .author-context {display:block; font-size:12px;}
+		.quote.v-gt450 .author-thumb {display:none;}
+		.quote.v-gt450 .author-photo {display:block; width:170px; float:right; margin-left:20px}
 	</style>
 
 	<script type="text/javascript">
@@ -112,20 +112,20 @@ Don't judge a book by its cover. Or something like that.
 	<br>
 	<h2>How it works</h2>
 	<p>The above demo element has the following classes attached to it. <b>Go ahead and drag the slider to see these classes update.</b></p>
-	<b><code class="live-classes" style="color: #217867; margin-bottom:0">gt50 gt100 gt150 gt200 gt250 gt300 gt350 gt400 gt450 gt500 gt550 gt600 gt650 lt700 lt750 lt800 lt850 lt900 lt950</code></b>
+	<b><code class="live-classes" style="color: #217867; margin-bottom:0">v-gt50 v-gt100 v-gt150 v-gt200 v-gt250 v-gt300 v-gt350 v-gt400 v-gt450 v-gt500 v-gt550 v-gt600 v-gt650 v-lt700 v-lt750 v-lt800 v-lt850 v-lt900 v-lt950</code></b>
 
 	<p><b><mark>These classes hold information. They tell you how big your element is.</mark></b> Classes are prepended with either 'lt' or 'gt' which stand for 'less than' and 'greater than'.  These classes always reflect the real width of the element.  That is what makes responsive elements possible.</p>
 
 
 	<!-- <h2>Examples</h2> --> <br>
-	<p><b>A class of 'gt300' means the element has a width 'greater than' 300 pixels. Here is some example CSS to color our element red when the width exceeds 300 pixels:</b></p>
-	<code>.quote<b>.gt300</b> {background: red}</code>
+	<p><b>A class of 'v-gt300' means the element has a width 'greater than' 300 pixels. Here is some example CSS to color our element red when the width exceeds 300 pixels:</b></p>
+	<code>.quote<b>.v-gt300</b> {background: red}</code>
 
 	<p><b>Or color it blue when its width is 'less than' 500 pixels:</b></p>
-	<code>.quote<b>.lt500</b> {background: blue}</code>
+	<code>.quote<b>.v-lt500</b> {background: blue}</code>
 
 	<p><b>Or combine them both by chaining another class. Here's the CSS to color the background yellow when the element is greater than 250 but less than 600 pixels:</b></p>
-	<code>.quote<b>.gt250.lt600</b> {background: blue}</code>
+	<code>.quote<b>.v-gt250.v-lt600</b> {background: blue}</code>
 
 	<br>
 	<h2>Usage</h2>
@@ -137,8 +137,8 @@ Don't judge a book by its cover. Or something like that.
 	<code>&lt;div class=&quot;quote&quot; <mark><b>data-respond</b></mark>&gt;</code>
 
 	<p><span>3.</span>Use 'less than' and 'greater than' classes as breakpoints to write responsive CSS.</p>
-	<code><pre>.quote<b>.lt500</b> {background: blue}
-.quote<b>.gt150.lt300</b> {background: red}
+	<code><pre>.quote<b>.v-lt500</b> {background: blue}
+.quote<b>.v-gt150.v-lt300</b> {background: red}
 </pre></code>
 
 	<center>
